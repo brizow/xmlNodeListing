@@ -11,52 +11,38 @@ namespace QuantosTestConsole
     {
         static void Main(string[] args)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load("QuantosExample.xml");
-            //declare some blank variables
-            string category = "", title = "", director = "", episode = "", year = "", price = "";
-            //select nodes from the parent/child/
-            XmlNodeList nodeList = xmlDoc.DocumentElement.SelectNodes("/tvshows/tvshow");
-            //declare a top level element to grab attributes
-            XmlElement element = xmlDoc.DocumentElement;
-            for (int i = 0; i < nodeList.Count; i++)
+            try
             {
-                try
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load("QuantosExample.xml");
+                //declare some blank variables
+                string episode = "";
+                //select nodes from the parent/child/
+                XmlNodeList nodeList = xmlDoc.DocumentElement.SelectNodes("/tvshows/tvshow/episode");
+                //declare a top level element to grab attributes
+                XmlElement element = xmlDoc.DocumentElement;
+                for (int i = 0; i < nodeList.Count; i++)
                 {
-                    category = nodeList[i].Attributes["category"].Value;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
-
-
-            foreach (XmlNode node in nodeList)
-            {
-                try
-                {
-                    
-                    title = node.SelectSingleNode("title").InnerText;
-                    director = node.SelectSingleNode("director").InnerText;
-                    episode = node.SelectSingleNode("episode").InnerText;
-                    year = node.SelectSingleNode("year").InnerText;
-                    price = node.SelectSingleNode("price").InnerText;
-                    //MessageBox.Show(episode + " ");
-                    if (episode != "")
+                    try
                     {
-                        //we just want episodes right now
+                        //category = nodeList[i].Attributes["category"].Value;
+                        episode = nodeList[i].InnerText;
                         Console.WriteLine(episode);
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+                //tell the user how to leave
+                Console.WriteLine(System.Environment.NewLine + "Hit a key to close this window.");
+                Console.ReadKey();
             }
-            //tell the user how to leave
-            Console.WriteLine(System.Environment.NewLine + "Hit a key to close this window.");
-            Console.ReadKey();
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadKey();
+            }
         }
     }
 }
